@@ -2,16 +2,17 @@ from enum import Enum
 from typing import Optional
 class Mark(Enum):
     "causal-learn package mark definition"
-    # TAIL = -1
-    # NULL = 0
-    # ARROW = 1
-    # CIRCLE = 2
+    TAIL = -1
+    ARROW = 1
+    CIRCLE = 2
+    NULL = 0
+
 
     "pcalg package mark definition"
-    TAIL = 3   # "-"
-    ARROW = 2  # ">"
-    CIRCLE = 1 # "o"
-    NULL = 0   # " "
+    # TAIL = 3   # "-"
+    # ARROW = 2  # ">"
+    # CIRCLE = 1 # "o"
+    # NULL = 0   # " "
 
     def __eq__(self, other):
         if isinstance(other, Mark):
