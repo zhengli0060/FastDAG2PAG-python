@@ -1,4 +1,4 @@
-# 🏹 FastDAG2PAG-python
+# 🏍️ FastDAG2PAG-python
 
 **FastDAG2PAG-python** is a Python tool for converting **Directed Acyclic Graphs (DAGs)** into **Partial Ancestral Graphs (PAGs)**.  
 It is inspired by the `dag2pag` function from the R package [pcalg](https://cran.r-project.org/web/packages/pcalg/index.html) 🧠, reimplemented in Python for improved accessibility and integration into modern workflows.
