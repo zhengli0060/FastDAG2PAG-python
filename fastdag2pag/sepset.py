@@ -1,5 +1,5 @@
 """
-Minimal Separation_Set for storing separation sets.
+For storing separation sets.
 """
 from collections import defaultdict
 from .Graph_utils import Node

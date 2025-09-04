@@ -2,17 +2,17 @@ from enum import Enum
 from typing import Optional
 class Mark(Enum):
     "causal-learn package mark definition"
-    TAIL = -1
-    ARROW = 1
-    CIRCLE = 2
-    NULL = 0
+    # TAIL = -1
+    # ARROW = 1
+    # CIRCLE = 2
+    # NULL = 0
 
 
     "pcalg package mark definition"
-    # TAIL = 3   # "-"
-    # ARROW = 2  # ">"
-    # CIRCLE = 1 # "o"
-    # NULL = 0   # " "
+    TAIL = 3   # "-"
+    ARROW = 2  # ">"
+    CIRCLE = 1 # "o"
+    NULL = 0   # " "
 
     def __eq__(self, other):
         if isinstance(other, Mark):
@@ -50,7 +50,7 @@ class Edge:
     def __init__(self, start: Node, lmark: Mark, rmark: Mark, end: Node):  # start lmark-rmark end
         self.start = start
         self.end = end
-        self.lmark = lmark  # 这里的 mark 可能是 Mark.TAIL, Mark.ARROW, Mark.CIRCLE
+        self.lmark = lmark  # The mark here can be Mark.TAIL, Mark.ARROW, or Mark.CIRCLE
         self.rmark = rmark
     def __repr__(self):
         rmark_symbol = {Mark.TAIL: "-", Mark.ARROW: ">", Mark.CIRCLE: "o"}

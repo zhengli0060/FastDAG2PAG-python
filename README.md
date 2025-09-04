@@ -1,9 +1,22 @@
-# FastDAG2PAG-python
+# 🏹 FastDAG2PAG-python
 
-This repository provides a implementation for converting a Directed Acyclic Graph (DAG) to a Partial Ancestral Graph (PAG):
+**FastDAG2PAG-python** is a Python tool for converting **Directed Acyclic Graphs (DAGs)** into **Partial Ancestral Graphs (PAGs)**.  
+It is inspired by the `dag2pag` function from the R package [pcalg](https://cran.r-project.org/web/packages/pcalg/index.html) 🧠, reimplemented in Python for improved accessibility and integration into modern workflows.
 
-- **fastdag2pag/**: A minimal, dependency-free Python implementation using D-separation and orientation rules, supporting latent variables (no selection bias). Suitable for research, benchmarking, and extension.
+## ⚠️ Notes
 
+- The skeleton learning implemented in this tool **does not** account for selection bias.  
+- The conversion algorithm is based on **Lemma 6.1.3** from *Causation, Prediction, and Search* (Spirtes et al. 2000),  
+  which is the same theoretical foundation used by `dag2pag` in the R package **pcalg**.  
+- The core logic has been **refactored** and **optimized** for Python.
 
-## Contact
-For questions or suggestions, please open an issue or contact me.
+**Additionally, I have discovered a potential issue in pcalg's dag2pag implementation. For details, please see `compare_pcalg.ipynb` in this repository.**
+
+## 🚀 Usage Example
+See `example_dag2pag.ipynb`.
+
+## 🤝 Contributing & Contact
+
+If you have questions or suggestions, feel free to open an issue or contact me directly.
+
+Email: [zhengli0060(at)gmail(dot)com]
