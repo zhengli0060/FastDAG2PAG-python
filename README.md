@@ -5,9 +5,7 @@ It is inspired by the `dag2pag` function from the R package [pcalg](https://cran
 
 ## ⚠️ Notes
 
-- The skeleton learning implemented in this tool **does not** account for selection bias.  
-- The conversion algorithm is based on **Lemma 6.1.3** from *Causation, Prediction, and Search* (Spirtes et al. 2000),  
-  which is the same theoretical foundation used by `dag2pag` in the R package **pcalg**.  
+- The skeleton learning implemented in this tool **does not** account for selection bias， following the same theoretical foundation as the `dag2pag` in the R package **pcalg**.  
 - The core logic has been **refactored** and **optimized** for Python.
 
 **Additionally, I have discovered a potential issue in pcalg's dag2pag implementation. For details, please see `compare_pcalg.ipynb` in this repository.**
