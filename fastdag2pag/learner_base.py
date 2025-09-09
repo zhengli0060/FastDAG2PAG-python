@@ -62,8 +62,8 @@ class Learner_Base:
 
         """
         The skeleton learning function for dag to pag.
-        We here reference Lemma 6.1.3 in Spirtes et al. to learn the skeleton fastly, same with the function 'dag2pag' in R package 'pcalg'.
-        - Spirtes P, Glymour C N, Scheines R. Causation, prediction, and search[M]. MIT press, 2000.
+        We here reference Theorem 4.2 in Richardson et al. to learn the skeleton fastly, same with the function 'dag2pag' in R package 'pcalg'.
+        - Richardson, T. S., & Spirtes, P. (2002). Ancestral Graph Markov Models.
         """
 
 
