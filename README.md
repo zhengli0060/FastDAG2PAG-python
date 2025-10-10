@@ -5,11 +5,7 @@ It is inspired by the `dag2pag` function from the R package [pcalg](https://cran
 
 ## ⚠️ Notes
 
-<<<<<<< HEAD
 - The skeleton learning implemented in this tool **does not** account for selection bias (I will address this in future updates), following the same theoretical foundation as the `dag2pag` in the R package **pcalg**.  
-=======
-- The skeleton learning implemented in this tool **does not** account for selection bias, following the same theoretical foundation as the `dag2pag` in the R package **pcalg**.  
->>>>>>> 4b0c777c852e87356b4ba3c6389c7eaf17ac814c
   - Reference: Richardson, T. S., & Spirtes, P. (2002). Ancestral Graph Markov Models, Theorem 4.2.
 - The core logic has been **refactored** and **optimized** for Python.
 
