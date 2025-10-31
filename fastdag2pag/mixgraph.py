@@ -1510,6 +1510,21 @@ class MixGraph(nx.Graph):
 
         return nx.is_isomorphic(self, other)
     
+    def copy(self) -> "MixGraph":
+        """
+        Create a deep copy of the MixGraph, including the node_list attribute.
+        """
+        new_graph = MixGraph()
+        # Copy the graph structure from networkx
+        new_graph.add_nodes_from(self.nodes())
+        new_graph.add_edges_from((u, v, attr.copy()) for (u, v, attr) in self.edges(data=True))
+        # Copy the node_list
+        new_graph.node_list = self.node_list.copy() if hasattr(self, 'node_list') else []
+        # Copy the cache
+        new_graph._cache_path = self._cache_path.copy()
+        new_graph._cache_nodes = self._cache_nodes.copy()
+        return new_graph
+
     #########################
     ## End Graph functions ##
     #########################

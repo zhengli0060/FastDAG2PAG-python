@@ -1,2 +1,7 @@
 .RData
 .Rhistory
+example_pag.pdf
+/fastdag2pag/__pycache__
+example_dag2pag copy.ipynb
+/fastdag2pag/__pycache__
+*.pyc
