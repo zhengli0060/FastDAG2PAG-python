@@ -6,3 +6,6 @@ example_dag2pag copy.ipynb
 /fastdag2pag/__pycache__
 *.pyc
 fastdag2pag/__pycache__/ci_test.cpython-39.pyc
+code_test.py
+*.pyc
+*.pyc
