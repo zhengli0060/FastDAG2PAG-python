@@ -56,10 +56,9 @@ class Edge:
         rmark_symbol = {Mark.TAIL: "-", Mark.ARROW: ">", Mark.CIRCLE: "o"}
         lmark_symbol = {Mark.TAIL: "-", Mark.ARROW: "<", Mark.CIRCLE: "o"}
         return f"{self.start}{lmark_symbol[self.lmark]}-{rmark_symbol[self.rmark]} {self.end}"
-    def _invert(self): # 反转边
-        # 反转边的方向
+    def _invert(self): 
+        # Inverts the direction of the edge
         self.start, self.end = self.end, self.start
-        # 交换标记
         self.lmark, self.rmark = self.rmark, self.lmark
 
     def copy(self):
