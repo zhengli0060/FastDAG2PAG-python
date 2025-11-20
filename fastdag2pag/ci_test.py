@@ -367,6 +367,8 @@ class D_sep_test_(CI_Test_):
         if self.selection_bias_nodes is not None:
             if any(s in self.selection_bias_nodes for s in S):
                 raise ValueError(f"Conditioning set S {S} cannot contain selection_bias_nodes: {self.selection_bias_nodes}")
+            if X in self.selection_bias_nodes or Y in self.selection_bias_nodes:
+                raise ValueError(f"X or Y cannot be in selection_bias_nodes: {self.selection_bias_nodes}")
             S = list(set(S) | set(self.selection_bias_nodes))
 
         X, Y, S = self._formatted_XYS(X, Y, S)

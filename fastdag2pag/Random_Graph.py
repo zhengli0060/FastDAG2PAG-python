@@ -219,7 +219,7 @@ class ErdosRenyi(GraphGenerator):
 
 
     
-    def set_latent_nodes(self, adj_matrix: pd.DataFrame, latent_rate: float=0.3, num_latent: int=None, selection_bias=False, selection_rate: float=0.1, debug=False) -> pd.DataFrame:
+    def set_latent_nodes(self, adj_matrix: pd.DataFrame, latent_rate: float=0.3, num_latent: int=None, selection_bias=False, selection_rate: float=0.1, num_sel: int=None, debug=False) -> pd.DataFrame:
         """
         Set the latent nodes in the graph.
         """
@@ -241,7 +241,7 @@ class ErdosRenyi(GraphGenerator):
             Cand_selection = set(adj_matrix.columns[adj_matrix.sum(axis=0) >= 2])
             if debug:
                 print(f"Init Candidates for selection bias nodes: {Cand_selection}")
-            num_selection = max(1, int(len(Cand_selection) * selection_rate))
+            num_selection = max(1, int(len(Cand_selection) * selection_rate)) if num_sel is None else num_sel
             if debug:
                 print(f"Number of selection bias nodes to set: {num_selection}")
                 print(f"Candidates for selection bias nodes: {Cand_selection}")

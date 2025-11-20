@@ -24,9 +24,6 @@ class Learner_Base:
         if self.latent_nodes is not None and self.selection_bias_nodes is not None:
             assert not (set(self.latent_nodes) & set(self.selection_bias_nodes)), "latent_nodes and selection_bias_nodes have overlapping elements"
 
-        if self.selection_bias_nodes is not None:
-            raise Warning("selection_bias_nodes is set, but now version DAG to PAG conversion not support selection bias nodes properly.")
-
 
         self.DAG = nx.DiGraph(data)  # Create a directed graph from the adjacency matrix, for dag to pag
             
@@ -53,6 +50,7 @@ class Learner_Base:
 
         if isinstance(data, pd.DataFrame):
             self.Nodes_list = [Node(node_name, index) for index, node_name in enumerate(data.columns)]
+            self.vars_list = data.columns.tolist()
             self.Nodes_dict = {node.name: node for node in self.Nodes_list}
         else:
             raise TypeError("Data must be a pandas DataFrame.")
@@ -70,15 +68,26 @@ class Learner_Base:
         graph = MixGraph(incoming_graph_data=self.Nodes_list)
         graph._init_complete_graph()
         ancList = {}
-        for node in self.Nodes_list:
-            ancList[node] = set(nx.ancestors(self.DAG, node.name))
+        
+        for var in self.vars_list:
+            ancList[var] = set(nx.ancestors(self.DAG, var))
+
+        if self.selection_bias_nodes is not None:
+            for sel_var in self.selection_bias_nodes:
+                ancList[sel_var] = set(nx.ancestors(self.DAG, sel_var))
 
 
-        for x, y in combinations(self.Nodes_list, 2):
-            sepset = (ancList[x] | ancList[y]) - {x.name, y.name} - set(self.latent_nodes) if self.latent_nodes is not None else set()
-            if self.ci_test(x.name, y.name, list(sepset))[0]:
-                self.sepsets._add(x, y, set(self.Nodes_dict[name] for name in sepset))
-                graph.remove_Edge(x, y) # 
+
+        for x, y in combinations(self.vars_list, 2):
+            sepset = ancList[x] | ancList[y]
+            if self.selection_bias_nodes is not None:
+                for sel_var in self.selection_bias_nodes:
+                    sepset = sepset | ancList[sel_var]
+            sepset = sepset - {x, y} - set(self.latent_nodes) if self.latent_nodes is not None else set()
+            sepset = sepset - set(self.selection_bias_nodes) if self.selection_bias_nodes is not None else set() # we have set the conditioning set including selection bias nodes in ci_test 
+            if self.ci_test(x, y, list(sepset))[0]:
+                self.sepsets._add(self.Nodes_dict[x], self.Nodes_dict[y], set(self.Nodes_dict[name] for name in sepset))
+                graph.remove_Edge(self.Nodes_dict[x], self.Nodes_dict[y]) # 
                 logger.info(f'remove {x} -- {y} via has sepset')
 
         return graph

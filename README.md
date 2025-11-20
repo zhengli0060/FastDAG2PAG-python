@@ -9,6 +9,8 @@ It is inspired by the `dag2pag` function from the R package [pcalg](https://cran
   - Reference: Richardson, T. S., & Spirtes, P. (2002). Ancestral Graph Markov Models, Theorem 4.2.
 - The core logic has been **refactored** and **optimized** for Python.
 
+- 2025/11/20: I have updated the implementation to correctly handle selection bias nodes during skeleton learning.
+  
 **Additionally, I have discovered a potential issue in pcalg's dag2pag implementation. For details, please see `compare_pcalg.ipynb` in this repository.**
 
 ## 🚀 Usage Example
@@ -22,7 +24,7 @@ See `example_dag2pag.ipynb`.
 - pgmpy==0.1.19
 - graphviz==0.20.3
 - pydot==3.0.2
-- causallearn==0.1.4.1(for DAGtoPAGPython part only)
+- causallearn==the newest version(2025/11/20)(for DAGtoPAGPython part only)
 
 
 ## 🤝 Contributing & Contact

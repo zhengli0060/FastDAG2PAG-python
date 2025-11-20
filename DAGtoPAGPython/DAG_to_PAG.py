@@ -115,7 +115,7 @@ def DAG_to_PAG(adj_matrix: Union[pd.DataFrame, np.array], latent_nodes: list[Uni
     islatent = [dag_nodes[i] for i in latent_nodes]  # Convert indices to GraphNode objects
     isselection = [dag_nodes[i] for i in selection_bias_nodes]  # Convert indices to GraphNode objects
 
-    pag = dag2pag(dag, islatent, isselection,verbose=verbose)  # Get the PAG as a GeneralGraph object
+    pag = dag2pag(dag, islatent, isselection)  # Get the PAG as a GeneralGraph object
 
 
     """
