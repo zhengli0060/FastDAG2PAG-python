@@ -910,7 +910,7 @@ class MixGraph(nx.Graph):
                 if mark_ji == Mark.ARROW.value:  # i <-- j
                     self.add_directed_Edge(j, i)
                 elif mark_ji == Mark.CIRCLE.value: # i o-- j
-                    self.add_circ_arrow_Edge(i, j)
+                    self.add_circ_tail_Edge(i, j)
                 elif mark_ji == Mark.TAIL.value:  # i --- j
                     self.add_tail_Edge(i, j)
                 else:  
