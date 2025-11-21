@@ -83,10 +83,17 @@ class Learner_Base:
             if self.selection_bias_nodes is not None:
                 for sel_var in self.selection_bias_nodes:
                     sepset = sepset | ancList[sel_var]
-            sepset = sepset - {x, y} - set(self.latent_nodes) if self.latent_nodes is not None else set()
-            sepset = sepset - set(self.selection_bias_nodes) if self.selection_bias_nodes is not None else set() # we have set the conditioning set including selection bias nodes in ci_test 
+
+            sepset = sepset - {x, y} 
+            if self.latent_nodes is not None:
+                sepset = sepset - set(self.latent_nodes)
+
+            # we have set the conditioning set including selection bias nodes in ci_test 
+            if self.selection_bias_nodes is not None:
+                sepset = sepset - set(self.selection_bias_nodes)
+            
             if self.ci_test(x, y, list(sepset))[0]:
-                self.sepsets._add(self.Nodes_dict[x], self.Nodes_dict[y], set(self.Nodes_dict[name] for name in sepset))
+                self.sepsets._add(self.Nodes_dict[x], self.Nodes_dict[y], set(self.Nodes_dict[name] for name in sepset)) # the condition set = sepset \cup selection_bias_nodes
                 graph.remove_Edge(self.Nodes_dict[x], self.Nodes_dict[y]) # 
                 logger.info(f'remove {x} -- {y} via has sepset')
 
