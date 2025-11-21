@@ -371,9 +371,9 @@ class Learner_Base:
         """
         If a -> b -> r or a -o b -> r, and a o-> r, orient a o-> r as a -> r.
         """
-        for a, r in pag.get_circ_star_Edge():
+        for a, r in pag.get_circ_arrow_Edge():
             for b in pag.get_parents(r):
-                if pag.has_directed_Edge(a, b) or pag.has_tail_circ_Edge(b, a):
+                if pag.has_directed_Edge(a, b) or pag.has_tail_circ_Edge(a, b):
                     pag.update_Edge(node1=a, lmark=Mark.TAIL, rmark=Mark.ARROW, node2=r)
                     update_flag = True
                     logger.info(f"Orienting Rule 8: {a} o-> {r} to {a} -> {r}")
