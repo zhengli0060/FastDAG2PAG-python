@@ -989,7 +989,9 @@ class MixGraph(nx.Graph):
         if not isinstance(node, Node):
             raise TypeError("node must be of type Node.")
         self.add_node(node)
-        self.clear_cache()
+        self.node_list.append(node)
+        # Keep node_list ordered by node.index (ascending)
+        self.node_list.sort(key=lambda n: n.index if n.index is not None else 0)
 
     def remove_Node(self, node: Node):
         """
