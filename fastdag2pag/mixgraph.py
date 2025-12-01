@@ -1,6 +1,6 @@
 from itertools import combinations
 import networkx as nx
-from .Graph_utils import *
+from fastdag2pag.Graph_utils import *
 from typing import Optional, Set, Tuple, Union, List
 import numpy as np
 import pandas as pd
