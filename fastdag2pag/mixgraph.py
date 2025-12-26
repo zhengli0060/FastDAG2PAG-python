@@ -939,6 +939,8 @@ class MixGraph(nx.Graph):
 
             if mark_ij == 1:
                 self.add_directed_Edge(i, j)     # i --> j
+            elif mark_ji == 1:
+                self.add_directed_Edge(j, i)     # i <-- j
             elif mark_ij == 0:
                 pass  # No edge between i and j
             else:

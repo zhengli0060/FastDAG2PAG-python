@@ -24,17 +24,13 @@ class Learner_Base:
         if self.latent_nodes is not None and self.selection_bias_nodes is not None:
             assert not (set(self.latent_nodes) & set(self.selection_bias_nodes)), "latent_nodes and selection_bias_nodes have overlapping elements"
 
-
         self.DAG = nx.DiGraph(data)  # Create a directed graph from the adjacency matrix, for dag to pag
-            
         self.ci_test = CI_test(data, method_type='D_sep', selection_bias_nodes=self.selection_bias_nodes)
-
-        observed_data = data.drop(columns=self.latent_nodes) if self.latent_nodes is not None else data
-        observed_data = observed_data.drop(columns=self.selection_bias_nodes) if self.selection_bias_nodes is not None else observed_data
-        self._init_nodes(observed_data)
-        self.pag = MixGraph(incoming_graph_data=self.Nodes_list) # Nodes_list only includes observed nodes, so pag is a MixGraph with only observed nodes.
+        self._init_nodes(data)
         self.sepsets = Separation_Set(set(self.Nodes_list))
-  
+        self.ancList = {}
+        for var in data.columns.to_list():
+            self.ancList[var] = set(nx.ancestors(self.DAG, var))
 
         self.selection_bias_rules = kwargs.get("selection_bias_rules", False)  # Whether to consider selection bias in orient rules, default is False
         if self.selection_bias_nodes is not None and not self.selection_bias_rules:
@@ -44,13 +40,15 @@ class Learner_Base:
         """
         Get the number of CI tests performed.
         """
-        return self.ci_test.get_ci_num()  # including the number of CI tests performed in the MB learning process and skeleton learning process
+        return self.ci_test.get_ci_num() 
     
     def _init_nodes(self, data: pd.DataFrame):
 
         if isinstance(data, pd.DataFrame):
-            self.Nodes_list = [Node(node_name, index) for index, node_name in enumerate(data.columns)]
-            self.vars_list = data.columns.tolist()
+            observed_data = data.drop(columns=self.latent_nodes) if self.latent_nodes is not None else data
+            observed_data = observed_data.drop(columns=self.selection_bias_nodes) if self.selection_bias_nodes is not None else observed_data
+            self.Nodes_list = [Node(node_name, index) for index, node_name in enumerate(observed_data.columns)]
+            self.vars_list = observed_data.columns.tolist()
             self.Nodes_dict = {node.name: node for node in self.Nodes_list}
         else:
             raise TypeError("Data must be a pandas DataFrame.")
@@ -67,16 +65,7 @@ class Learner_Base:
 
         graph = MixGraph(incoming_graph_data=self.Nodes_list)
         graph._init_complete_graph()
-        ancList = {}
-        
-        for var in self.vars_list:
-            ancList[var] = set(nx.ancestors(self.DAG, var))
-
-        if self.selection_bias_nodes is not None:
-            for sel_var in self.selection_bias_nodes:
-                ancList[sel_var] = set(nx.ancestors(self.DAG, sel_var))
-
-
+        ancList = self.ancList
 
         for x, y in combinations(self.vars_list, 2):
             sepset = ancList[x] | ancList[y]
@@ -98,6 +87,45 @@ class Learner_Base:
                 logger.info(f'remove {x} -- {y} via has sepset')
 
         return graph
+
+    def orient_by_dag(self, pag: MixGraph) -> MixGraph:
+        """
+        Orient the skeleton to get the MAG according to the given DAG.
+        """
+
+        # all ancestors of selection bias nodes, that is， An(selection_bias_nodes, DAG)
+        total_ant_sel_nodes = set()
+        if self.selection_bias_nodes:
+            total_ant_sel_nodes = set.union(*(self.ancList[node] for node in self.selection_bias_nodes))
+
+  
+        # compute the set An(node\cup selection_bias_nodes, DAG) for each node in PAG
+        anc_sets = {
+            node.name: self.ancList[node.name] | total_ant_sel_nodes
+            for node in pag.node_list
+        }
+
+
+        for x_node, y_node in pag.edges():
+            anc_yS = anc_sets[y_node.name]
+            anc_xS = anc_sets[x_node.name]
+
+            if (x_node.name in anc_yS) and (y_node.name in anc_xS):
+                pag.update_Edge(node1=x_node, lmark=Mark.TAIL, rmark=Mark.TAIL, node2=y_node)
+                logger.info(f"Orienting by DAG: {x_node.name} --- {y_node.name}")
+            elif (x_node.name not in anc_yS) and (y_node.name in anc_xS):
+                pag.update_Edge(node1=x_node, lmark=Mark.ARROW, rmark=Mark.TAIL, node2=y_node)
+                logger.info(f"Orienting by DAG: {x_node.name} <-- {y_node.name}") 
+            elif (x_node.name in anc_yS) and (y_node.name not in anc_xS):
+                pag.update_Edge(node1=x_node, lmark=Mark.TAIL, rmark=Mark.ARROW, node2=y_node)
+                logger.info(f"Orienting by DAG: {x_node.name} --> {y_node.name}")
+            elif (x_node.name not in anc_yS) and (y_node.name not in anc_xS):
+                pag.update_Edge(node1=x_node, lmark=Mark.ARROW, rmark=Mark.ARROW, node2=y_node)
+                logger.info(f"Orienting by DAG: {x_node.name} <-> {y_node.name}")
+            else:
+                raise ValueError("Unexpected case in orient_by_dag.")
+
+        return pag
 
 
     def orient_collider(self, undirected_graph: MixGraph) -> MixGraph:
