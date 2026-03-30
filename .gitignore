@@ -10,3 +10,6 @@ code_test.py
 *.pyc
 *.pyc
 *.pyc
+*.json
+*.pyc
+*.pyc
