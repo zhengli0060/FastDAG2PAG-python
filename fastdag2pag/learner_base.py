@@ -282,14 +282,17 @@ class Learner_Base:
                     t = md_path[0]
                     if self.sepsets.is_in_sepset(target=b, node1=t, node2=r):
                         pag.update_Edge(node1=b, lmark=Mark.TAIL, rmark=Mark.ARROW, node2=r)
-                        
                         logger.info(f"Orienting Rule 4: {b} o-* {r} to {b} -> {r}")
-                    else:
+                        update_flag = True
+                        break  # No need to check other As for this b, r pair
+                    elif self.sepsets.has_sepset(t, r) and (not self.sepsets.is_in_sepset(target=b, node1=t, node2=r)):
                         pag.update_Edge(node1=a, lmark=Mark.ARROW, rmark=Mark.ARROW, node2=b)
                         pag.update_Edge(node1=b, lmark=Mark.ARROW, rmark=Mark.ARROW, node2=r)
                         logger.info(f"Orienting Rule 4: {a} <-> {b} <-> {r}")
-                    update_flag = True
-                    break  # No need to check other As for this b, r pair
+                        update_flag = True
+                        break  # No need to check other As for this b, r pair
+                    else:
+                        continue  # No orientation if the separation set information is not sufficient
         return pag, update_flag
 
     def minUncovCircPath(self, path, pag: MixGraph) -> Optional[List[Node]]:
