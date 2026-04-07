@@ -11,10 +11,12 @@ It is inspired by the `dag2pag` function from the R package [pcalg](https://cran
 
 - 2025/12/26: I added a new function 'dag2mag' to convert DAGs to MAGs.
   
+- 2026/04/07: I added a new version of the implementation, named 'dag2', which provides a new dataclass of PMG, and improved efficiency.
+  
 **Additionally, I have discovered a potential issue in pcalg's dag2pag implementation. For details, please see `compare_pcalg.ipynb` in this repository.**
 
 ## 🚀 Usage Example
-See `example_dag2pag.ipynb`.
+See `example_dag2pag_V1.ipynb` and `example_dag2pag_V2.ipynb` for the corresponding examples.
 
 
 ## 🛠️ Dependencies
