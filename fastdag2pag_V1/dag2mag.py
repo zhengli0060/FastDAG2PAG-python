@@ -5,8 +5,8 @@ Main entry for DAG to MAG conversion using D-sep and orientations.
 # import os
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
-from fastdag2pag.learner_base import Learner_Base
-from fastdag2pag.mixgraph import MixGraph
+from fastdag2pag_V1.learner_base import Learner_Base
+from fastdag2pag_V1.mixgraph import MixGraph
 
 def dag2mag(dag_df:pd.DataFrame, latent_nodes: list=None, selection_bias_nodes: list=None) -> dict:
     """

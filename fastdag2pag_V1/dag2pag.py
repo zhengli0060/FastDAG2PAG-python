@@ -2,8 +2,8 @@
 Main entry for DAG to PAG conversion using D-sep and orientation rules.
 """
 import pandas as pd
-from fastdag2pag.learner_base import Learner_Base
-from fastdag2pag.mixgraph import MixGraph
+from fastdag2pag_V1.learner_base import Learner_Base
+from fastdag2pag_V1.mixgraph import MixGraph
 
 def dag2pag(dag_df:pd.DataFrame, latent_nodes: list=None, selection_bias: list=None) -> dict:
     """

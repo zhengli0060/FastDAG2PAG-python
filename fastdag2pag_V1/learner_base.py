@@ -1,12 +1,12 @@
 import logging
 import time
 from typing import List, Optional, Union
-from fastdag2pag.mixgraph import MixGraph
-from fastdag2pag.sepset import Separation_Set
+from fastdag2pag_V1.mixgraph import MixGraph
+from fastdag2pag_V1.sepset import Separation_Set
 import pandas as pd
 import numpy as np
-from fastdag2pag.Graph_utils import Edge, Mark, Node
-from fastdag2pag.ci_test import CI_test
+from fastdag2pag_V1.Graph_utils import Edge, Mark, Node
+from fastdag2pag_V1.ci_test import CI_test
 from itertools import combinations
 import networkx as nx
 

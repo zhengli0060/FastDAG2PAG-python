@@ -2,7 +2,7 @@
 For storing separation sets.
 """
 from collections import defaultdict
-from fastdag2pag.Graph_utils import Node
+from fastdag2pag_V1.Graph_utils import Node
 from typing import Optional
 import warnings
 
